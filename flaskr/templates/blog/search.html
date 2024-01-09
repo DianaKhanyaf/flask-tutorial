@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+  <h2>Search</h2>
+  <form method="post" action="{{ url_for('blog.search') }}">
+    <label for="keyword">Keyword:</label>
+    <input type="text" name="keyword" id="keyword" required>
+    <br>
+    <input type="submit" value="Search">
+  </form>
+{% endblock %}

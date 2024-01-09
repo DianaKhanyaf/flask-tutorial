@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Translate Post{% endblock %}
+
+{% block content %}
+  <h1>Translate Post</h1>
+  <p>Title: {{ post['title'] }}</p>
+  <p>Body: {{ post['body'] }}</p>
+  <form method="post" action="{{ url_for('blog.translate_post', id=post['id']) }}">
+    <label for="language">Translate to:</label>
+    <select name="language" id="language" required>
+      <option value="en">English</option>
+      <option value="ru">Russian</option>
+      <!-- Add more language options as needed -->
+    </select>
+    <br>
+    <button type="submit">Translate</button>
+  </form>
+{% endblock %}
