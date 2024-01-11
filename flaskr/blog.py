@@ -103,15 +103,7 @@ def delete(id):
     return redirect(url_for('blog.index'))
 # flask tutorial, end of Blog Blueprint, https://flask.palletsprojects.com/en/3.0.x/tutorial/blog/
 
-# Add the new route for song search
-
-
-# blog.py
-
-
-
-
-
+#TRANSLATION function, on the page with all jobs (what we did)
 @bp.route('/<int:id>/translate', methods=['GET', 'POST'])
 @login_required
 def translate_post(id):
@@ -136,14 +128,12 @@ def translate_post(id):
 
         return render_template('blog/translated_post.html', post=post, translated_text=translated_text)
 
-def translate_text(text, target_language="en" or "ru", source_language="de"):
+def translate_text(text, target_language="en" or "ru" or "it", source_language="de"):
     translator = Translator(to_lang=target_language, from_lang = source_language)
     translation = translator.translate(text)
     return translation
 
-
-
-
+#COMMENTING function, on the page with all jobs (what we did)
 @bp.route('/<int:id>/comments', methods=['GET', 'POST'])
 @login_required
 def comments(id):
