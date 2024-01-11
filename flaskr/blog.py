@@ -104,18 +104,7 @@ def delete(id):
 # flask tutorial, end of Blog Blueprint, https://flask.palletsprojects.com/en/3.0.x/tutorial/blog/
 
 # Add the new route for song search
-@bp.route('/search', methods=('GET', 'POST'))
-@login_required
-def search():
-    if request.method == 'POST':
-        keyword = request.form['keyword']
-        query = "SELECT lyrics FROM song WHERE lyrics LIKE ?"
-        print("Query:", query)
-        print("Values:", (f"%{keyword}%",))
-        lyrics = get_db().execute(query, (f"%{keyword}%",)).fetchall()
-        return render_template('blog/search_results.html', lyrics=lyrics, keyword=keyword)
 
-    return render_template('blog/search.html')
 
 # blog.py
 
@@ -153,3 +142,40 @@ def translate_text(text, target_language="en" or "ru", source_language="de"):
     return translation
 
 
+
+
+@bp.route('/<int:id>/comments', methods=['GET', 'POST'])
+@login_required
+def comments(id):
+    post = get_post(id, check_author=False)
+
+    if request.method == 'POST':
+        content = request.form['content']
+        error = None
+
+        if not content:
+            error = 'Content is required.'
+
+        if error is not None:
+            flash(error)
+        else:
+            db = get_db()
+            db.execute(
+                'INSERT INTO comment (post_id, author_id, content)'
+                ' VALUES (?, ?, ?)',
+                (id, g.user['id'], content)
+            )
+            db.commit()
+
+    comments = get_comments(id)
+
+    return render_template('blog/comments.html', post=post, comments=comments)
+
+def get_comments(id):
+    return get_db().execute(
+        'SELECT c.id, content, created, author_id, username'
+        ' FROM comment c JOIN user u ON c.author_id = u.id'
+        ' WHERE c.post_id = ?'
+        ' ORDER BY created DESC',
+        (id,)
+    ).fetchall()

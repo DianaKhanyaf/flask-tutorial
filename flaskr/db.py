@@ -31,19 +31,6 @@ def init_db():
     with current_app.open_resource('schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
-    csv_file = 'tcc_ceds_music.csv'
-
-    # Insert data into the 'song' table
-    with open(csv_file, 'r', encoding='utf-8') as file:
-        csv_reader = csv.DictReader(file)
-        for row in csv_reader:
-            columns = ', '.join(['number', 'artist_name', 'track_name', 'release_date', 'genre', 'lyrics'])
-            values = ', '.join(['?' for _ in row])
-            query = f"INSERT INTO song ({columns}) VALUES ({values});"
-            db.execute(query, tuple(row.values()))
-
-    db.commit()
-
 
 @click.command('init-db')
 def init_db_command():

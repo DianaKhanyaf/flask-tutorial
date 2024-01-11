@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}Jobs{% endblock %}
+
 {% block header %}
-  <h1>{% block title %}Jobs{% endblock %}</h1>
+  <h1>Jobs</h1>
   {% if g.user %}
     <a class="action" href="{{ url_for('blog.create') }}">New</a>
   {% endif %}
@@ -18,9 +20,8 @@
         {% if g.user['id'] == post['author_id'] %}
           <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
         {% endif %}
-        {% if g.user['id'] == post['author_id'] %}
-          <a class="action" href="{{ url_for('blog.translate_post', id=post['id']) }}">Translate</a>
-        {% endif %}
+        <a class="action" href="{{ url_for('blog.translate_post', id=post['id']) }}">Translate</a>
+        <a class="action" href="{{ url_for('blog.comments', id=post['id']) }}">Comments</a>
       </header>
       <p class="body">{{ post['body'] }}</p>
     </article>
