@@ -1,0 +1,31 @@
+<!-- Inside templates/blog/comments.html -->
+
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Comments{% endblock %}</h1>
+  <a class="back-link" href="{{ url_for('blog.index') }}">Back to Jobs</a>
+{% endblock %}
+
+{% block content %}
+  <h2>{{ post['title'] }}</h2>
+  <p>{{ post['body'] }}</p>
+
+  <h3>All Comments to this Translation Job</h3>
+  <ul>
+    {% for comment in comments %}
+      <li>
+        <div class="about">by {{ comment['username'] }} on {{ comment['created'].strftime('%Y-%m-%d %H:%M:%S') }}</div>
+        <p>{{ comment['content'] }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h3>Add a Comment</h3>
+  <form method="post">
+    <textarea id="content" name="content" required></textarea>
+    <button type="submit">Submit Comment</button>
+  </form>
+
+  <a class="back-link" href="{{ url_for('blog.index') }}">Back to Jobs</a>
+{% endblock %}
