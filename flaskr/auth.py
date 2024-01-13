@@ -37,7 +37,7 @@ def register():
 
                 # Redirect to the newly registered user's jobs page
                 user_id = db.execute('SELECT id FROM user WHERE username = ?', (username,)).fetchone()['id']
-                return redirect(url_for('blog.index', user_id=user_id))
+                return redirect(url_for('auth.login', user_id=user_id))
 
             except db.IntegrityError:
                 error = f"User {username} is already registered."
@@ -90,7 +90,7 @@ def load_logged_in_user():
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for("auth.login"))
 
 
 def login_required(view):

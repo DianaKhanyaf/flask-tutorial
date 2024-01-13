@@ -4,17 +4,34 @@
 
 {% block content %}
   <h1>Translate Post</h1>
-  <p>Title: {{ post['title'] }}</p>
-  <p>Body: {{ post['body'] }}</p>
-  <form method="post" action="{{ url_for('blog.translate_post', id=post['id']) }}">
-    <label for="language">Translate to:</label>
-    <select name="language" id="language" required>
-      <option value="en">English</option>
-      <option value="ru">Russian</option>
-      <option value="it">Italian</option>
-      <!-- Add more language options as needed -->
-    </select>
-    <br>
-    <button type="submit">Translate</button>
-  </form>
+
+  <div class="post-details">
+    <p><strong>Title:</strong> {{ post['title'] }}</p>
+    <p><strong>Source Text:</strong> {{ post['body'] }}</p>
+  </div>
+
+   <hr>
+
+  <div class="translation-form">
+    <form method="post" action="{{ url_for('blog.translate_post', id=post['id']) }}">
+      <label for="language">Translate to:</label>
+      <select name="language" id="language" required>
+        <option value="en">English</option>
+        <option value="ru">Russian</option>
+        <option value="it">Italian</option>
+        <!-- Add more language options as needed -->
+      </select>
+      <br>
+      <button type="submit">Translate</button>
+    </form>
+  </div>
+
+  <hr>
+
+  <div class="back-to-jobs-link">
+    <a href="{{ url_for('blog.index') }}">Back to Jobs</a>
+  </div>
+
+  <hr>
 {% endblock %}
+
