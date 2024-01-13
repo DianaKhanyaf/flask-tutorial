@@ -4,7 +4,7 @@
 #flaskr/templates/blog/create.html
 #flaskr/templates/blog/update.html
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
+    Blueprint, flash, g, redirect, render_template, request, url_for
 )
 from werkzeug.exceptions import abort
 
@@ -28,6 +28,8 @@ def index():
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
 def create():
+    default_title = f"{g.user['username']}'s Job {get_user_job_count() + 1}"
+
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
@@ -46,9 +48,27 @@ def create():
                 (title, body, g.user['id'])
             )
             db.commit()
-            return redirect(url_for('blog.index'))
 
-    return render_template('blog/create.html')
+            # Retrieve the ID of the newly created post
+            post_id = db.execute(
+                'SELECT id FROM post WHERE title = ? AND author_id = ?',
+                (title, g.user['id'])
+            ).fetchone()['id']
+
+            # Redirect to the edit page for the newly created post
+            return redirect(url_for('blog.update', id=post_id))
+
+    return render_template('blog/create.html', default_title=default_title)
+
+def get_user_job_count():
+    db = get_db()
+    count = db.execute(
+        'SELECT COUNT(id) FROM post WHERE author_id = ?',
+        (g.user['id'],)
+    ).fetchone()[0]
+    return count
+
+
 
 def get_post(id, check_author=True):
     post = get_db().execute(
@@ -90,6 +110,8 @@ def update(id):
             )
             db.commit()
             return redirect(url_for('blog.index'))
+
+
 
     return render_template('blog/update.html', post=post)
 

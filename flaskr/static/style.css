@@ -1,4 +1,8 @@
-html { font-family: sans-serif; background: #eee; padding: 1rem; }
+html { font-family: Times New Roman;
+background: url('https://inzonedesign.com/wp-content/uploads/2021/02/benefits-multilingual-website-tree-flag-a-2048x1434.jpg');
+background-size: 120%;
+background-position: center -150px;
+padding: 12rem; }
 body { max-width: 960px; margin: 0 auto; background: white}
 h1 { font-family: serif; color: #377ba8; margin: 1rem 0; }
 a { color: #377ba8; }

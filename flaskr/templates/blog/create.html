@@ -1,15 +1,21 @@
 {% extends 'base.html' %}
 
+{% block title %}
+  Create New Entry - Flaskr
+{% endblock %}
+
 {% block header %}
-  <h1>{% block title %}New Post{% endblock %}</h1>
-{% endblock %}flask --app flaskr run --debug
+  <h1>Create New Entry</h1>
+{% endblock %}
 
 {% block content %}
   <form method="post">
-    <label for="title">Title</label>
-    <input name="title" id="title" value="{{ request.form['title'] }}" required>
-    <label for="body">Body</label>
-    <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
-    <input type="submit" value="Save">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" value="{{ default_title }}" required>
+    <br>
+    <label for="body">Body:</label>
+    <textarea id="body" name="body" required></textarea>
+    <br>
+    <button type="submit">Save</button>
   </form>
 {% endblock %}

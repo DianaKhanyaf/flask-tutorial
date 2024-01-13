@@ -24,6 +24,8 @@ def register():
             error = 'Username is required.'
         elif not password:
             error = 'Password is required.'
+        elif len(password) < 7:
+            error = 'Password must be at least 7 characters long.'
 
         if error is None:
             try:
@@ -32,6 +34,11 @@ def register():
                     (username, generate_password_hash(password)),
                 )
                 db.commit()
+
+                # Redirect to the newly registered user's jobs page
+                user_id = db.execute('SELECT id FROM user WHERE username = ?', (username,)).fetchone()['id']
+                return redirect(url_for('blog.index', user_id=user_id))
+
             except db.IntegrityError:
                 error = f"User {username} is already registered."
             else:

@@ -25,10 +25,6 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
 # flask tutorial, end of Application Setup
 
 #flask tutorial, Define and Access the Database, https://flask.palletsprojects.com/en/3.0.x/tutorial/database/
