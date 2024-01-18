@@ -1,5 +1,4 @@
 <!-- Inside templates/blog/comments.html -->
-
 {% extends 'base.html' %}
 
 {% block header %}
@@ -9,7 +8,8 @@
 {% block content %}
   <h2>{{ post['title'] }}</h2>
   <p>{{ post['body'] }}</p>
-
+  <br>
+  <br>
   <h3>All Comments to this Translation Job</h3>
   <ul>
     {% for comment in comments %}
@@ -20,11 +20,17 @@
     {% endfor %}
   </ul>
 
-  <h3>Add a Comment</h3>
-  <form method="post">
-    <textarea id="content" name="content" required></textarea>
-    <button type="submit">Submit Comment</button>
-  </form>
+  {% if g.user %}
+    <h3>Add a Comment</h3>
+    <form method="post">
+      <textarea id="content" name="content" required></textarea>
+      <button type="submit">Submit Comment</button>
+    </form>
+  {% else %}
+  <br>
+  <br>
+    <p>Please <a href="{{ url_for('auth.login') }}">log in</a> to add a comment.</p>
+  {% endif %}
 
   <a class="back-link" href="{{ url_for('blog.index') }}">Back to Jobs</a>
 {% endblock %}
