@@ -56,7 +56,7 @@ def create():
             ).fetchone()['id']
 
             # Redirect to the edit page for the newly created post
-            return redirect(url_for('blog.update', id=post_id))
+            return redirect(url_for('blog.index', id=post_id))
 
     return render_template('blog/create.html', default_title=default_title)
 
