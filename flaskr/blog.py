@@ -157,7 +157,6 @@ def translate_text(text, target_language="en" or "ru" or "it", source_language="
 
 #COMMENTING function, on the page with all jobs (what we did)
 @bp.route('/<int:id>/comments', methods=['GET', 'POST'])
-@login_required
 def comments(id):
     post = get_post(id, check_author=False)
 
